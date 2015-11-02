@@ -68,7 +68,7 @@ there is the need to do an excessive amount of defensive copying in order to imp
 the Stream API lacks combinator functions like `foldLeft`, which greatly simplify multiple state mutations in the
 presence of immutable data structures.
 
-While the Scala version resembles the Java version in almost every details, these aspects improved the readability
+While the Scala version resembles the Java version in almost every detail, these aspects improved the readability
 of the code even more. The next couple of sections highlight some of the aspects that contribute to the Java vs.
 Scala discussion in greater detail, but also provide general things about this port that may be of interest.
 
