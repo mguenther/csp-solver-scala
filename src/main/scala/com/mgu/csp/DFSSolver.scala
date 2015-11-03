@@ -25,22 +25,21 @@ class DFSSolver[+A](
    */
   final def solve[B >: A](csp: CSP[B]): Option[Assignment[B]] = solve(csp, csp.initialAssignment())
 
-  private def solve[B >: A](csp: CSP[B], assignment: Assignment[B]): Option[Assignment[B]] = {
+  private def solve[B >: A](csp: CSP[B], assignment: Assignment[B]): Option[Assignment[B]] =
+    csp.isSatisfied(assignment) match {
+      case true => Some(assignment)
+      case _ => {
+        val unassignedVariable = variableOrdering.selectUnassignedVariable(assignment)
+        lazy val constraints = csp.constraints()
 
-    if (csp.isSatisfied(assignment)) {
-      return Some(assignment)
+        valueOrdering
+          .orderedDomain(unassignedVariable, constraints)
+          .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
+          .map(value => assignment.assign(unassignedVariable.id, value, constraints))
+          .filter(assignment => csp.isConsistent(assignment))
+          .map(consistentAssignment => solve(csp, consistentAssignment))
+          .flatten
+          .find(_ => true)
+      }
     }
-
-    val unassignedVariable = variableOrdering.selectUnassignedVariable(assignment)
-    lazy val constraints = csp.constraints()
-
-    valueOrdering
-      .orderedDomain(unassignedVariable, constraints)
-      .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
-      .map(value => assignment.assign(unassignedVariable.id, value, constraints))
-      .filter(assignment => csp.isConsistent(assignment))
-      .map(consistentAssignment => solve(csp, consistentAssignment))
-      .flatten
-      .find(_ => true)
-  }
 }

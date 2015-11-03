@@ -20,8 +20,7 @@ trait ValueOrdering[+A] {
    * @return
    *    ordered [[List]] of [[Variable]]s
    */
-  def orderedDomain[B >: A](variable: Variable[B], constraints: List[Constraint]): List[B] =
-    variable.domain
+  def orderedDomain[B >: A](variable: Variable[B], constraints: List[Constraint]): List[B]
 }
 
 /**

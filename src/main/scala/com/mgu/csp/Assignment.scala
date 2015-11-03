@@ -70,8 +70,9 @@ case class Assignment[+A](variableAssignments: Map[Identity, Variable[A]]) {
       .get(variableIdentity)
       .map(variable => variable.assign(value))
       .get
+    val baseAssignment = copy(variableAssignments = variableAssignments + ((variableIdentity, modifiedVariable)))
     dependentVariables(variableIdentity, constraints)
-      .foldLeft(copy(variableAssignments = variableAssignments + ((variableIdentity, modifiedVariable))))((assignment, dependentVariableIdentity) => assignment.restrict(dependentVariableIdentity, value))
+      .foldLeft(baseAssignment)((assignment, dependentVariableIdentity) => assignment.restrict(dependentVariableIdentity, value))
   }
 
   private def dependentVariables(variableIdentity: Identity, constraints: List[Constraint]): List[Identity] =
