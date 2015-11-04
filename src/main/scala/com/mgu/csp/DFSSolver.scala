@@ -28,7 +28,7 @@ class DFSSolver[+A](
   private def solve[B >: A](csp: CSP[B], assignment: Assignment[B]): Option[Assignment[B]] =
     csp.isSatisfied(assignment) match {
       case true => Some(assignment)
-      case _ => {
+      case _ =>
         val unassignedVariableOpt = variableOrdering.selectUnassignedVariable(assignment)
         lazy val constraints = csp.constraints()
 
@@ -41,6 +41,5 @@ class DFSSolver[+A](
             .flatMap(consistentAssignment => solve(csp, consistentAssignment))
             .headOption
         }
-      }
     }
 }
