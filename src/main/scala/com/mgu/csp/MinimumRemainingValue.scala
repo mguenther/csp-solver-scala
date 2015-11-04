@@ -13,7 +13,7 @@ class MinimumRemainingValue[+A] extends VariableOrdering[A] {
     assignment
       .unassignedVariables()
       .sortWith(mostConstrainedOf)
-      .find(_ => true)
+      .headOption
       .get
 
   private def mostConstrainedOf[B >: A](a: Variable[B], b: Variable[B]) =

@@ -41,7 +41,7 @@ case class AllDiff(reliesOn: List[Identity]) extends Constraint {
     val remainingValues = dependentVariables
       .filterNot(variable => variable.isAssigned())
       .filter(variable => variable.domain.size == 1)
-      .map(variable => variable.domain.find(_ => true).get) // guaranteed to be present
+      .map(variable => variable.domain.headOption.get) // guaranteed to be present
     !containsDuplicates(remainingValues)
   }
 

@@ -39,7 +39,7 @@ class DFSSolver[+A](
           .filter(assignment => csp.isConsistent(assignment))
           .map(consistentAssignment => solve(csp, consistentAssignment))
           .flatten
-          .find(_ => true)
+          .headOption
       }
     }
 }
