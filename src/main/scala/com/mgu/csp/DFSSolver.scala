@@ -38,8 +38,7 @@ class DFSSolver[+A](
             .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
             .map(value => assignment.assign(unassignedVariable.id, value, constraints))
             .filter(assignment => csp.isConsistent(assignment))
-            .map(consistentAssignment => solve(csp, consistentAssignment))
-            .flatten
+            .flatMap(consistentAssignment => solve(csp, consistentAssignment))
             .headOption
         }
       }
