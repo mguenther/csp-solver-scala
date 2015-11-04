@@ -33,8 +33,10 @@ object SudokuApp {
 
       rows.foreach(row => {
         println()
-        row.foreach(col => print(assignment.get.variableAssignments.get(col).get.value))
+        row.foreach(col => print(assignment.get.variableAssignments.get(col).get.value.get))
       })
+
+      println()
     }
   }
 }
