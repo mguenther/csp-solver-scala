@@ -40,8 +40,8 @@ case class AllDiff(reliesOn: List[Identity]) extends Constraint {
   private def noConflictingUnassigned[A](dependentVariables: List[Variable[A]]): Boolean = {
     val remainingValues = dependentVariables
       .filterNot(variable => variable.isAssigned())
-      .filter(variable => variable.domain.size == 1)
-      .map(variable => variable.domain.headOption.get) // guaranteed to be present
+      .collect { case v@Variable(_) if v.domain.size == 1 => v.domain.head  }
+
     !containsDuplicates(remainingValues)
   }
 
