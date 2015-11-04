@@ -9,12 +9,11 @@ package com.mgu.csp
  */
 class MinimumRemainingValue[+A] extends VariableOrdering[A] {
 
-  override def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Variable[B] =
+  override def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Option[Variable[B]] =
     assignment
       .unassignedVariables()
       .sortWith(mostConstrainedOf)
-      .find(_ => true)
-      .get
+      .headOption
 
   private def mostConstrainedOf[B >: A](a: Variable[B], b: Variable[B]) =
     (a.domain.size - b.domain.size) < 0

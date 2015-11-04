@@ -28,18 +28,18 @@ class DFSSolver[+A](
   private def solve[B >: A](csp: CSP[B], assignment: Assignment[B]): Option[Assignment[B]] =
     csp.isSatisfied(assignment) match {
       case true => Some(assignment)
-      case _ => {
-        val unassignedVariable = variableOrdering.selectUnassignedVariable(assignment)
+      case _ =>
+        val unassignedVariableOpt = variableOrdering.selectUnassignedVariable(assignment)
         lazy val constraints = csp.constraints()
 
-        valueOrdering
-          .orderedDomain(unassignedVariable, constraints)
-          .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
-          .map(value => assignment.assign(unassignedVariable.id, value, constraints))
-          .filter(assignment => csp.isConsistent(assignment))
-          .map(consistentAssignment => solve(csp, consistentAssignment))
-          .flatten
-          .find(_ => true)
-      }
+        unassignedVariableOpt.flatMap { unassignedVariable =>
+          valueOrdering
+            .orderedDomain(unassignedVariable, constraints)
+            .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
+            .map(value => assignment.assign(unassignedVariable.id, value, constraints))
+            .filter(assignment => csp.isConsistent(assignment))
+            .flatMap(consistentAssignment => solve(csp, consistentAssignment))
+            .headOption
+        }
     }
 }
