@@ -24,5 +24,5 @@ trait VariableOrdering[+A] {
  */
 class UninformedVariableOrdering[+A] extends VariableOrdering[A] {
   override def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Variable[B] =
-    assignment.unassignedVariables().find(_ => true).get
+    assignment.unassignedVariables().headOption.get
 }
