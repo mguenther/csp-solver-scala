@@ -15,7 +15,7 @@ trait VariableOrdering[+A] {
    * @return
    *    unassigned variable
    */
-  def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Variable[B]
+  def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Option[Variable[B]]
 }
 
 /**
@@ -23,6 +23,6 @@ trait VariableOrdering[+A] {
  * next unassigned variable with regard to the current state in [[Assignment]].
  */
 class UninformedVariableOrdering[+A] extends VariableOrdering[A] {
-  override def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Variable[B] =
-    assignment.unassignedVariables().headOption.get
+  override def selectUnassignedVariable[B >: A](assignment: Assignment[B]): Option[Variable[B]] =
+    assignment.unassignedVariables().headOption
 }
