@@ -29,17 +29,19 @@ class DFSSolver[+A](
     csp.isSatisfied(assignment) match {
       case true => Some(assignment)
       case _ => {
-        val unassignedVariable = variableOrdering.selectUnassignedVariable(assignment)
+        val unassignedVariableOpt = variableOrdering.selectUnassignedVariable(assignment)
         lazy val constraints = csp.constraints()
 
-        valueOrdering
-          .orderedDomain(unassignedVariable, constraints)
-          .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
-          .map(value => assignment.assign(unassignedVariable.id, value, constraints))
-          .filter(assignment => csp.isConsistent(assignment))
-          .map(consistentAssignment => solve(csp, consistentAssignment))
-          .flatten
-          .headOption
+        unassignedVariableOpt.flatMap { unassignedVariable =>
+          valueOrdering
+            .orderedDomain(unassignedVariable, constraints)
+            .toStream // crucial, otherwise this will be solved using a BFS which is painfully inefficient
+            .map(value => assignment.assign(unassignedVariable.id, value, constraints))
+            .filter(assignment => csp.isConsistent(assignment))
+            .map(consistentAssignment => solve(csp, consistentAssignment))
+            .flatten
+            .headOption
+        }
       }
     }
 }
