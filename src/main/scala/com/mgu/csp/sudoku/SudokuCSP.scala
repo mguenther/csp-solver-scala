@@ -6,22 +6,22 @@ import com.mgu.csp.sudoku.IdGenerator.id
 
 class SudokuCSP(val sudokuPuzzle: String) extends CSP[Int] {
 
-  override def constraints(): List[Constraint] =
+  override def constraints(): List[Constraint[Int]] =
     constraintsOnRows union constraintsOnColumns union constraintsOnGrids
 
-  private def constraintsOnRows(): List[Constraint] = {
+  private def constraintsOnRows(): List[Constraint[Int]] = {
     (for { row <- 1 to 9 } yield (1 to 9).map(col => id(row, col)))
-      .map(dependentVariables => AllDiff(dependentVariables.toList))
+      .map(dependentVariables => AllDiff[Int](dependentVariables.toList))
       .toList
   }
 
-  private def constraintsOnColumns(): List[Constraint] = {
+  private def constraintsOnColumns(): List[Constraint[Int]] = {
     (for { column <- 1 to 9 } yield (1 to 9).map(row => id(row, column)))
-    .map(dependentVariables => AllDiff(dependentVariables.toList))
+    .map(dependentVariables => AllDiff[Int](dependentVariables.toList))
     .toList
   }
 
-  private def constraintsOnGrids(): List[Constraint] = {
+  private def constraintsOnGrids(): List[Constraint[Int]] = {
     (for {
       gridRow <- 0 to 2
       gridCol <- 0 to 2
@@ -29,7 +29,7 @@ class SudokuCSP(val sudokuPuzzle: String) extends CSP[Int] {
         row <- 1 + gridRow * 3 to 1 + gridRow * 3 + 2
         col <- 1 + gridCol * 3 to 1 + gridCol * 3 + 2
       }  yield id(row, col))
-    .map(dependentVariables => AllDiff(dependentVariables.toList))
+    .map(dependentVariables => AllDiff[Int](dependentVariables.toList))
     .toList
   }
 
@@ -43,7 +43,7 @@ class SudokuCSP(val sudokuPuzzle: String) extends CSP[Int] {
     .map(identity => identity -> Variable[Int](identity)(None, domain = (1 to 9).toList))
     .toMap
 
-    lazy val lazyConstraints: List[Constraint] = constraints()
+    lazy val lazyConstraints: List[Constraint[Int]] = constraints()
     val emptyAssignment = Assignment[Int](unassignedVariables)
     val lines = sudokuPuzzle.split("\n")
 

@@ -25,7 +25,7 @@ case class Assignment[+A](variableAssignments: Map[Identity, Variable[A]]) {
    *    `true` if this assignment is consistent with regard to the given [[Constraint]]s,
    *    `false` otherwise
    */
-  def isConsistent(constraints: List[Constraint]): Boolean =
+  def isConsistent[B >: A](constraints: List[Constraint[B]]): Boolean =
     constraints.forall(constraint => constraint.isConsistent(subsetOf(constraint.reliesOn())))
 
   /**
@@ -48,10 +48,10 @@ case class Assignment[+A](variableAssignments: Map[Identity, Variable[A]]) {
    *    `true` if this assignment is satisfied with regard to the given [[Constraint]]s,
    *    `false` otherwise
    */
-  def isSatisfied(constraints: List[Constraint]): Boolean =
+  def isSatisfied[B >: A](constraints: List[Constraint[B]]): Boolean =
     isComplete && constraints.forall(constraint => constraint.isSatisfied(subsetOf(constraint.reliesOn())))
 
-  private def subsetOf[B >: A](variableIdentities: List[Identity]): List[Variable[B]] =
+  private def subsetOf(variableIdentities: List[Identity]): List[Variable[A]] =
     variableIdentities.flatMap(variableIdentity => variableAssignments.get(variableIdentity))
 
   /**
@@ -65,7 +65,7 @@ case class Assignment[+A](variableAssignments: Map[Identity, Variable[A]]) {
    * @return
    *    copy of this `Assignment` with the additional variable assignment based on the given parameters
    */
-  def assign[B >: A](variableIdentity: Identity, value: B, constraints: List[Constraint]): Assignment[B] = {
+  def assign[B >: A](variableIdentity: Identity, value: B, constraints: List[Constraint[B]]): Assignment[B] = {
     val modifiedVariable = variableAssignments
       .get(variableIdentity)
       .map(variable => variable.assign(value))
@@ -75,7 +75,7 @@ case class Assignment[+A](variableAssignments: Map[Identity, Variable[A]]) {
       .foldLeft(baseAssignment)((assignment, dependentVariableIdentity) => assignment.restrict(dependentVariableIdentity, value))
   }
 
-  private def dependentVariables(variableIdentity: Identity, constraints: List[Constraint]): List[Identity] =
+  private def dependentVariables[B >: A](variableIdentity: Identity, constraints: List[Constraint[B]]): List[Identity] =
     constraints
       .filter(constraint => constraint.reliesOn().contains(variableIdentity))
       .flatMap(dependentConstraint => dependentConstraint.reliesOn())
@@ -107,7 +107,7 @@ case class Assignment[+A](variableAssignments: Map[Identity, Variable[A]]) {
    * @return
    *    immutable [[List]] of all [[Variable]]s that are not assigned.
    */
-  def unassignedVariables[B >: A](): List[Variable[B]] =
+  def unassignedVariables(): List[Variable[A]] =
     variableAssignments
       .values
       .filterNot(variable => variable.isAssigned())

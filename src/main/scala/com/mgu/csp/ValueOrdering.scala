@@ -20,7 +20,7 @@ trait ValueOrdering[+A] {
    * @return
    *    ordered [[List]] of [[Variable]]s
    */
-  def orderedDomain[B >: A](variable: Variable[B], constraints: List[Constraint]): List[B]
+  def orderedDomain[B >: A](variable: Variable[B], constraints: List[Constraint[B]]): List[B]
 }
 
 /**
@@ -28,6 +28,6 @@ trait ValueOrdering[+A] {
  * of domain values from the given [[Variable]].
  */
 class UninformedValueOrdering[+A] extends ValueOrdering[A] {
-  override def orderedDomain[B >: A](variable: Variable[B], constraints: List[Constraint]): List[B] =
+  override def orderedDomain[B >: A](variable: Variable[B], constraints: List[Constraint[B]]): List[B] =
     variable.domain
 }

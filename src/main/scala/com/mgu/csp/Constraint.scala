@@ -8,7 +8,7 @@ import com.mgu.csp.Variable.Identity
  *
  * @author Markus Günther (markus.guenther@gmail.com)
  */
-trait Constraint {
+trait Constraint[+A] {
   /**
    * Determines whether this `Constraint` is consistent with the current state of its dependent
    * variables.
@@ -19,7 +19,7 @@ trait Constraint {
    * @return
    *    `true` if this `Constraint` is consistent with the given [[Variable]]s, `false` otherwise
    */
-  def isConsistent[A](dependentVariables: List[Variable[A]]): Boolean
+  def isConsistent[B >: A](dependentVariables: List[Variable[B]]): Boolean
 
   /**
    * Determines whether this `Constraint` is satisfied with the current state of its dependent
@@ -31,7 +31,7 @@ trait Constraint {
    * @return
    *    `true` if this `Constraint` is satisfied with the given [[Variable]]s, `false` otherwise
    */
-  def isSatisfied[A](dependentVariables: List[Variable[A]]): Boolean
+  def isSatisfied[B >: A](dependentVariables: List[Variable[B]]): Boolean
 
   /**
    * @return

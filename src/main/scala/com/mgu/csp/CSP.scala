@@ -38,7 +38,7 @@ trait CSP[+A] {
    * @return
    *    Yields the set of constraints for this CSP
    */
-  def constraints(): List[Constraint]
+  def constraints(): List[Constraint[A]]
 
   /**
    * @return

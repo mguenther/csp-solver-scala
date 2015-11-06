@@ -12,22 +12,22 @@ import scala.annotation.tailrec
  *
  * @author Markus Günther (markus.guenther@gmail.com)
  */
-case class AllDiff(reliesOn: List[Identity]) extends Constraint {
+case class AllDiff[+A](reliesOn: List[Identity]) extends Constraint[A] {
 
-  override def isConsistent[A](dependentVariables: List[Variable[A]]): Boolean = {
+  override def isConsistent[B >: A](dependentVariables: List[Variable[B]]): Boolean = {
     noDuplicatesAssigned(dependentVariables) &&
     unassignedCanBeAssigned(dependentVariables) &&
     noConflictingUnassigned(dependentVariables)
   }
 
-  private def noDuplicatesAssigned[A](dependentVariables: List[Variable[A]]): Boolean = {
+  private def noDuplicatesAssigned[B >: A](dependentVariables: List[Variable[B]]): Boolean = {
     val assignedValues = dependentVariables
       .filter(variable => variable.isAssigned())
       .map(variable => variable.value)
     !containsDuplicates(assignedValues)
   }
 
-  private def unassignedCanBeAssigned[A](dependentVariables: List[Variable[A]]): Boolean = {
+  private def unassignedCanBeAssigned[B >: A](dependentVariables: List[Variable[B]]): Boolean = {
     val assignedValues = dependentVariables
       .filter(variable => variable.isAssigned())
       .map(variable => variable.value)
@@ -37,7 +37,7 @@ case class AllDiff(reliesOn: List[Identity]) extends Constraint {
       .forall(candidates => candidates.exists(candidate => !assignedValues.contains(candidate)))
   }
 
-  private def noConflictingUnassigned[A](dependentVariables: List[Variable[A]]): Boolean = {
+  private def noConflictingUnassigned[B >: A](dependentVariables: List[Variable[B]]): Boolean = {
     val remainingValues = dependentVariables
       .filterNot(variable => variable.isAssigned())
       .collect { case v @ Variable(_) if v.domain.size == 1 => v.domain.head }
@@ -45,13 +45,13 @@ case class AllDiff(reliesOn: List[Identity]) extends Constraint {
   }
 
   @tailrec
-  private def containsDuplicates[A](list: List[A], seen: Set[A] = Set[A]()): Boolean =
+  private def containsDuplicates[B](list: List[B], seen: Set[B] = Set[B]()): Boolean =
     list match {
       case x :: xs => if (seen.contains(x)) true else containsDuplicates(xs, seen + x)
       case _ => false
     }
 
-  override def isSatisfied[A](dependentVariables: List[Variable[A]]): Boolean = {
+  override def isSatisfied[B >: A](dependentVariables: List[Variable[B]]): Boolean = {
     lazy val allVariablesAssigned = dependentVariables.forall(variable => variable.isAssigned())
     allVariablesAssigned && isConsistent(dependentVariables)
   }
