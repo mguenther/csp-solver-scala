@@ -5,10 +5,13 @@ import com.mgu.csp.Variable.Identity
 import scala.annotation.tailrec
 
 /**
- * The `AllDiff` constraints ensures that assigned variables the constraint relies on hold a unique value
+ * The `AllDiff` constraint ensures that assigned variables the constraint relies on hold a unique value
  * with regard to each other. It also ensures that unassigned variables are not in a conflicting state. Suppose
  * variables X and Y are unassigned and share the same restricted domain of values D(X) = D(Y) = { c }. Both X
  * and Y are in a conflicted state and it is impossible to satisfy the constraint by further variable assignments.
+ *
+ * @param reliesOn
+ *    represents the identities of all [[Variable]]s that this `Constraint` relies on
  *
  * @author Markus Günther (markus.guenther@gmail.com)
  */
