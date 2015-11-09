@@ -218,6 +218,14 @@ The output for a solution of the CSP looks like this (N=8):
     ....Q... [5]
     ......Q. [7]
 
+# Contribution
+
+Feedback and pull requests are always welcome!
+
+Contributors:
+
+* [Markus Hauck](https://github.com/markus1189)
+
 # License
 
 This software is released under the terms of the MIT license.
