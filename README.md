@@ -194,6 +194,30 @@ variables:
 
 In total there are 27 constraints and 81 variables.
 
+# Example Application: N-Queens as CSP
+
+Package `com.mgu.csp.queens` represents the N-Queens problem as a constraint satisfaction problem. The input for the
+CSP is the size of the board (defaults to 8) that starts off with an `Assignment` that contains only unassigned
+variables. A `Variable` represents a single row of the board, while its domain represents possible column assignments.
+
+The Queens CSP uses the `AllDiff` constraint on each pair of rows. This enables us to filter all solutions in which
+two rows use the same column for their queen placement. To also filter out diagonally conflicting queens, we make us
+of the so called `NonMatchingDifference` constraint. This constraint works only if both dependent variables are already
+assigned a value. If not, it cannot decide whether to discard the assignment. As this property holds for all 
+constraints of that type, it is not able to prune a partial assignment. This limits the efficiency of our CSP 
+representation as it is only able to prune a partial assignment if the `AllDiff` constraint takes action.
+
+The output for a solution of the CSP looks like this (N=8):
+ 
+    ...Q.... [4]
+    .Q...... [2]
+    .......Q [8]
+    .....Q.. [6]
+    Q....... [1]
+    ..Q..... [3]
+    ....Q... [5]
+    ......Q. [7]
+
 # License
 
 This software is released under the terms of the MIT license.
