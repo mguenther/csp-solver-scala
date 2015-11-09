@@ -2,7 +2,7 @@ package com.mgu.csp.queens
 
 import com.mgu.csp.Variable.Identity
 import com.mgu.csp.{ AllDiff, Assignment, Constraint, CSP, NonMatchingDifference, Variable }
-import com.mgu.csp.queens.IdGenerator.id
+import com.mgu.csp.queens.QueensCSP.id
 
 class QueensCSP(size: Int = 8) extends CSP[Int] {
 
@@ -35,4 +35,9 @@ class QueensCSP(size: Int = 8) extends CSP[Int] {
     .toMap
     Assignment[Int](unassignedVariables)
   }
+}
+
+object QueensCSP {
+  def id(row: Int): Identity =
+    String.format("R%s", String.valueOf(row))
 }

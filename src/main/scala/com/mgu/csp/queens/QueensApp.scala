@@ -1,7 +1,7 @@
 package com.mgu.csp.queens
 
 import com.mgu.csp.DFSSolver
-import com.mgu.csp.queens.IdGenerator.id
+import com.mgu.csp.queens.QueensCSP.id
 
 object QueensApp {
 
