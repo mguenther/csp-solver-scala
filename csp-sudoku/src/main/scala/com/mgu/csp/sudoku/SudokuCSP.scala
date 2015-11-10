@@ -1,8 +1,8 @@
 package com.mgu.csp.sudoku
 
 import com.mgu.csp.Variable.Identity
-import com.mgu.csp.{ AllDiff, Assignment, Constraint, CSP, Variable }
 import com.mgu.csp.sudoku.IdGenerator.id
+import com.mgu.csp.{AllDiff, Assignment, CSP, Constraint, Variable}
 
 class SudokuCSP(val sudokuPuzzle: String) extends CSP[Int] {
 

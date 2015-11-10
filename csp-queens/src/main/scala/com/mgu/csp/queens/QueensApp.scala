@@ -13,21 +13,21 @@ object QueensApp {
     val assignment = solver.solve(queensCSP)
     val duration = (System.nanoTime() - start) / 1000000
 
-    if (!assignment.isDefined) {
+    if (assignment.isEmpty) {
       println("Found no solution.")
     } else {
       println("Took " + duration + " ms.")
       println()
 
       (1 to size)
-        .map(id(_))
+        .map(id)
         .foreach(row => {
         val queensPosition = assignment.get.variableAssignments.get(row).get.value.get
         print((1 to queensPosition-1).toList.foldLeft("")((s,_) => s + "."))
         print("Q")
         print((queensPosition+1 to size).toList.foldLeft("")((s,_) => s + "."))
         print(" [" + queensPosition + "]")
-        println
+        println()
       })
     }
   }

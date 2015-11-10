@@ -1,7 +1,7 @@
 package com.mgu.csp.sudoku
 
-import com.mgu.csp.{MinimumRemainingValue, DFSSolver}
 import com.mgu.csp.sudoku.IdGenerator.id
+import com.mgu.csp.{DFSSolver, MinimumRemainingValue}
 
 object SudokuApp {
 

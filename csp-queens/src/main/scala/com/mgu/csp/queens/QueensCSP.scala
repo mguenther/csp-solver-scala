@@ -1,8 +1,8 @@
 package com.mgu.csp.queens
 
 import com.mgu.csp.Variable.Identity
-import com.mgu.csp.{ AllDiff, Assignment, Constraint, CSP, NonMatchingDifference, Variable }
 import com.mgu.csp.queens.QueensCSP.id
+import com.mgu.csp.{AllDiff, Assignment, CSP, Constraint, NonMatchingDifference, Variable}
 
 class QueensCSP(size: Int = 8) extends CSP[Int] {
 
