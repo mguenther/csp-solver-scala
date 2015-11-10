@@ -8,10 +8,11 @@ how to do functional programming with Scala.
 The implementation is largely inspired from the splendid introductory text "Artificial Intelligence - A Modern Approach"
 by Stuart Russell and Peter Norvig.
 
-# Package Overview
+# Module Overview
 
-* `com.mgu.csp`: Contains a functional approach on CSP-framework design for CSPs that are both discrete and finite.
-* `com.mgu.csp.sudoku`: Contains an example application which expresses Sudoku as a CSP and solves it using the core framework.
+* `csp-core`: Contains a functional approach on CSP-framework design for CSPs that are both discrete and finite.
+* `csp-queens`: Contains an example application which expresses the N-Queens problem as a CSP.
+* `csp-sudoku`: Contains an example application which expresses Sudoku as a CSP.
 
 # Design
 
