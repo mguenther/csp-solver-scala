@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/mguenther/csp-solver-scala.svg?branch=master)](https://travis-ci.org/mguenther/csp-solver-scala.svg)
-
 # Constraint Satisfaction Problem Solver
+
+[![Build Status](https://travis-ci.org/mguenther/csp-solver-scala.svg?branch=master)](https://travis-ci.org/mguenther/csp-solver-scala.svg)
 
 This is a Scala-based port of the CSP solver `csp-solver-java`. It is a tiny framework for solving constraint
 satisfaction problems (CSP) that have both discrete and finite domains. Although this framework is fully
